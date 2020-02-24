@@ -6,11 +6,11 @@ public class Highlander extends Player<Highlander> {
     public static final String GREAT_SWORD = "greatSword";
 
     public Highlander() {
-        super(HIGHLANDER_LIFE, 0, GREAT_SWORD);
+        super(HIGHLANDER_LIFE, Weapon.greatSword);
         setHitPoints(HIGHLANDER_LIFE);
     }
 
     public Highlander(String playerType) {
-        super(HIGHLANDER_LIFE, 0, GREAT_SWORD);
+        super(HIGHLANDER_LIFE, Weapon.greatSword);
     }
 }

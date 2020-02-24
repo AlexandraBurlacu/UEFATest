@@ -3,8 +3,6 @@ package me.guillaume.duel;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.guillaume.duel.Equipments.valueOf;
-
 public class Player<P extends Player<P>> {
 
     private Map<String, Integer> chosenEquipment=new HashMap<>();
@@ -12,10 +10,10 @@ public class Player<P extends Player<P>> {
     private int damage;
     private String weapon;
 
-    public Player(int life, int damage, String weapon) {
+    public Player(int life, Weapon weapon) {
         this.hitPoints = life;
-        this.damage = damage;
-        this.weapon = weapon;
+        this.damage = weapon.getDamage();
+        this.weapon = weapon.getWeaponName();
     }
 
     public P equip(String equipment) {
@@ -24,10 +22,25 @@ public class Player<P extends Player<P>> {
     }
     public void engage(Player player) {
         int numberStrike = 1;
-        while (this.hitPoints() > 0 && player.hitPoints() > 0 ) {
-            if (chosenEquipment.containsKey("buckler")) {
-            }
+        while (this.hitPoints() > 0 && player.hitPoints() > 0) {
+            hit(this, player, numberStrike);
+            hit(player, this, numberStrike);
             numberStrike++;
+        }
+    }
+
+    private void hit(Player<P> player1, Player<P> player2, int numberStrike) {
+        if (player2.chosenEquipment.containsKey("buckler")) {
+            if (numberStrike % 2 == 0) {
+                player2.setHitPoints(player2.hitPoints() - player1.getDamage());
+                if(player1.weapon.equals(Weapon.axe.getWeaponName())) {
+                    if (numberStrike == 6) {
+                        player2.chosenEquipment.remove("buckler");
+                    }
+                }
+            }
+        } else {
+            player2.setHitPoints(player2.hitPoints() - player1.getDamage());
         }
     }
 
