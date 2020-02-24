@@ -1,27 +1,39 @@
 package me.guillaume.duel;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
+import static me.guillaume.duel.Equipments.valueOf;
 
 public class Player<P extends Player<P>> {
 
-    private List<String> equipment;
+    private Map<String, Integer> chosenEquipment=new HashMap<>();
     private int hitPoints;
     private int damage;
+    private String weapon;
 
-    public Player(int life, int damage) {
+    public Player(int life, int damage, String weapon) {
         this.hitPoints = life;
         this.damage = damage;
+        this.weapon = weapon;
     }
 
     public P equip(String equipment) {
-        this.equipment.add(equipment);
+        chosenEquipment.put(equipment, Equipments.valueOf(equipment).getProtect());
         return (P) this;
     }
     public void engage(Player player) {
+        int numberStrike = 1;
         while (this.hitPoints() > 0 && player.hitPoints() > 0 ) {
-            player.setHitPoints(player.hitPoints() - getDamage());
-            setHitPoints(hitPoints() - player.getDamage());
+            if (chosenEquipment.containsKey("buckler")) {
+            }
+            numberStrike++;
         }
+    }
+
+    private void hit (Player player) {
+        player.setHitPoints(player.hitPoints() - getDamage());
+        setHitPoints(hitPoints() - player.getDamage());
     }
 
     public int hitPoints() {
